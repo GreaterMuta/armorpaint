@@ -11,7 +11,7 @@ jobs:
     - name: Checkout Repository with Submodules
       uses: actions/checkout@v4
       with:
-        submodules: recursive # Forces GitHub to download the hidden base engine layers
+        submodules: recursive
 
     - name: Setup Node.js Environment
       uses: actions/setup-node@v4
@@ -31,8 +31,8 @@ jobs:
             7z x "$v8Path/v8_monolith.7z" -o"$v8Path" -y
         } else {
             echo "Checking alternative paths for V8..."
-            Get-ChildItem -Path . -Filter "v8_monolith.7z" -Recurive | ForEach-Object {
-                echo "Extracting found archive: $_.FullName"
+            Get-ChildItem -Path . -Filter "v8_monolith.7z" -Recursive | ForEach-Object {
+                echo "Extracting found archive: $($_.FullName)"
                 7z x $_.FullName -o"$($_.DirectoryName)" -y
             }
         }
