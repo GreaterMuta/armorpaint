@@ -22,19 +22,13 @@ jobs:
       uses: microsoft/setup-msbuild@v2
 
     - name: Run ArmorPaint Make Engine
+      working-directory: paint
       shell: cmd
       run: |
-        cd paint
         ..\base\make
 
     - name: Compile Visual Studio Solution
+      working-directory: paint
       shell: cmd
       run: |
-        cd paint
         msbuild build\ArmorPaint.sln /p:Configuration=Release /p:Platform=x64
-
-    - name: Upload Compiled Binary
-      uses: actions/upload-artifact@v4
-      with:
-        name: ArmorPaint-Windows-x64
-        path: paint/build/Release/
