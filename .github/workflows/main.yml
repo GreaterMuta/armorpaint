@@ -1,7 +1,7 @@
 name: Build ArmorPaint Windows
 
 on:
-  workflow_dispatch: # Allows you to run this manually with a button click
+  workflow_dispatch:
 
 jobs:
   build-windows:
@@ -11,7 +11,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        submodules: recursive # Important: fetches engine dependencies
+        submodules: recursive
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -30,6 +30,7 @@ jobs:
     - name: Compile Visual Studio Solution
       shell: cmd
       run: |
+        cd paint
         msbuild build\ArmorPaint.sln /p:Configuration=Release /p:Platform=x64
 
     - name: Upload Compiled Binary
