@@ -1,0 +1,39 @@
+name: Build ArmorPaint Windows
+
+on:
+  workflow_dispatch: # Allows you to run this manually with a button click
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive # Important: fetches engine dependencies
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Run ArmorPaint Make Engine
+      shell: cmd
+      run: |
+        cd paint
+        ..\base\make
+
+    - name: Compile Visual Studio Solution
+      shell: cmd
+      run: |
+        msbuild build\ArmorPaint.sln /p:Configuration=Release /p:Platform=x64
+
+    - name: Upload Compiled Binary
+      uses: actions/upload-artifact@v4
+      with:
+        name: ArmorPaint-Windows-x64
+        path: paint/build/Release/
