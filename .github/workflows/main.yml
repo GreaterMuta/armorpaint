@@ -27,12 +27,12 @@ jobs:
         # Locates and extracts the massive v8 file required by the graphics framework
         $v8Path = "armorcore/v8/libraries/win32/release"
         if (Test-Path "$v8Path/v8_monolith.7z") {
-            echo "Found older structure V8 archive. Extracting..."
+            Write-Output "Found older structure V8 archive. Extracting..."
             7z x "$v8Path/v8_monolith.7z" -o"$v8Path" -y
         } else {
-            echo "Checking alternative paths for V8..."
-            Get-ChildItem -Path . -Filter "v8_monolith.7z" -Recursive | ForEach-Object {
-                echo "Extracting found archive: $($_.FullName)"
+            Write-Output "Checking alternative paths for V8..."
+            Get-ChildItem -Path . -Filter "v8_monolith.7z" -Recurse | ForEach-Object {
+                Write-Output "Extracting found archive: $($_.FullName)"
                 7z x $_.FullName -o"$($_.DirectoryName)" -y
             }
         }
